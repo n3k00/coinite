@@ -1,4 +1,10 @@
 import 'package:coinite/controllers/main_wrapper_controller.dart';
+import 'package:coinite/data/models/crypto_model.dart';
+import 'package:coinite/data/models/crypto_model_impl.dart';
+import 'package:coinite/data/vo/crypto_vo.dart';
+import 'package:coinite/data/vo/fear_vo.dart';
+import 'package:coinite/network/data_agents/crypto_data_agent.dart';
+import 'package:coinite/network/data_agents/retrofit_data_agent_impl.dart';
 import 'package:coinite/networks.dart';
 import 'package:coinite/resources/dimens.dart';
 import 'package:coinite/views/favorite_page.dart';
@@ -16,7 +22,12 @@ class MainWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Network().getCrypto();
+    CryptoModel cryptoModel = CryptoModelImpl();
+    cryptoModel.getFearIndexList(10).then((value) {
+      for (FearVO fearVO in value) {
+        print(fearVO.value);
+      }
+    });
     return Scaffold(
       body: PageView(
         controller: controller.pageController,

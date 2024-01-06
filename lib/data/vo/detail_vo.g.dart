@@ -10,9 +10,9 @@ DetailVO _$DetailVOFromJson(Map<String, dynamic> json) => DetailVO(
       (json['price'] as num).toDouble(),
       json['volume_24h'] as int,
       json['market_cap'] as int,
-      (json['percent_change_1h'] as num).toDouble(),
-      (json['percent_change_24h'] as num).toDouble(),
-      (json['percent_change_7d'] as num).toDouble(),
+      (json['percent_change_1h'] as num?)?.toDouble(),
+      (json['percent_change_24h'] as num?)?.toDouble(),
+      (json['percent_change_7d'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$DetailVOToJson(DetailVO instance) => <String, dynamic>{

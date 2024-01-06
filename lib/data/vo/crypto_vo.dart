@@ -1,4 +1,4 @@
-import 'package:coinite/models/vo/quotes_vo.dart';
+import 'package:coinite/data/vo/quotes_vo.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'crypto_vo.g.dart';

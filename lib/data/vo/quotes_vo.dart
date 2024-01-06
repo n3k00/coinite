@@ -1,4 +1,4 @@
-import 'package:coinite/models/vo/detail_vo.dart';
+import 'package:coinite/data/vo/detail_vo.dart';
 
 class Quotes {
   DetailVO detailVO;

@@ -14,13 +14,13 @@ class DetailVO {
   int marketCap;
 
   @JsonKey(name: "percent_change_1h")
-  double percentChange1h;
+  double? percentChange1h;
 
   @JsonKey(name: "percent_change_24h")
-  double percentChange24h;
+  double? percentChange24h;
 
   @JsonKey(name: "percent_change_7d")
-  double percentChange7d;
+  double? percentChange7d;
 
   DetailVO(
     this.price,
