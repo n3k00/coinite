@@ -22,12 +22,6 @@ class MainWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CryptoModel cryptoModel = CryptoModelImpl();
-    cryptoModel.getFearIndexList(10).then((value) {
-      for (FearVO fearVO in value) {
-        print(fearVO.value);
-      }
-    });
     return Scaffold(
       body: PageView(
         controller: controller.pageController,
@@ -98,10 +92,12 @@ class MainWrapper extends StatelessWidget {
           children: [
             Icon(
               icons,
+              size: TEXT_REGULAR_3X,
               color: controller.currentPage.value == page
                   ? Colors.green
                   : Colors.grey,
             ),
+            SizedBox(height: MARGIN_SMALL),
             Text(
               label,
               style: TextStyle(
