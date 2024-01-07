@@ -23,17 +23,19 @@ class MainWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: controller.pageController,
-        onPageChanged: controller.animatedToTab,
-        physics: BouncingScrollPhysics(),
-        children: [
-          HomePage(),
-          FavoritePage(),
-          FearIndexPage(),
-          PortfolioPage(),
-          ProfilePage(),
-        ],
+      body: SafeArea(
+        child: PageView(
+          controller: controller.pageController,
+          onPageChanged: controller.animatedToTab,
+          physics: BouncingScrollPhysics(),
+          children: [
+            HomePage(),
+            FavoritePage(),
+            FearIndexPage(),
+            PortfolioPage(),
+            ProfilePage(),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,

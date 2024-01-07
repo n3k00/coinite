@@ -3,6 +3,7 @@ import 'package:coinite/data/models/crypto_model_impl.dart';
 import 'package:coinite/data/vo/crypto_vo.dart';
 import 'package:coinite/data/vo/detail_vo.dart';
 import 'package:coinite/resources/dimens.dart';
+import 'package:coinite/widgets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -12,58 +13,50 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Cryptocurrency",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: TEXT_HEADING_X1,
-                  ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TitleText(title: "Cryptocurrency"),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  FontAwesomeIcons.magnifyingGlass,
+                  size: TEXT_REGULAR_3X,
+                  color: Colors.grey,
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    FontAwesomeIcons.magnifyingGlass,
-                    size: TEXT_REGULAR_3X,
-                    color: Colors.grey,
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
-          ListTitleSection(),
-          Expanded(
-            child: FutureBuilder(
-                future: CryptoModelImpl().getCryptoList(100),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<CryptoVO>> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (context, index) {
-                        CryptoVO crypto = snapshot.data![index];
-                        DetailVO detail = crypto.quotes.detailVO;
-                        int number = index + 1;
-                        return cryptoSection(number, crypto, detail);
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text(snapshot.error.toString()));
-                  } else if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
+        ),
+        ListTitleSection(),
+        Expanded(
+          child: FutureBuilder(
+              future: CryptoModelImpl().getCryptoList(100),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<CryptoVO>> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (context, index) {
+                      CryptoVO crypto = snapshot.data![index];
+                      DetailVO detail = crypto.quotes.detailVO;
+                      int number = index + 1;
+                      return cryptoSection(number, crypto, detail);
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                } else if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
-                }),
-          ),
-        ],
-      ),
+                }
+                return Center(child: CircularProgressIndicator());
+              }),
+        ),
+      ],
     );
   }
 

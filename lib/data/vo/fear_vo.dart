@@ -13,7 +13,11 @@ class FearVO {
   @JsonKey(name: "timestamp")
   String timestamp;
 
-  FearVO(this.value, this.valueClassification, this.timestamp);
+  @JsonKey(name: "time_until_update")
+  String? timeUntilUpdate;
+
+  FearVO(this.value, this.valueClassification, this.timestamp,
+      this.timeUntilUpdate);
 
   factory FearVO.fromJson(Map<String, dynamic> json) => _$FearVOFromJson(json);
 
