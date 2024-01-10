@@ -7,10 +7,6 @@ import 'package:get/get.dart';
 class FearIndexController extends GetxController {
   CryptoModel cryptoModel = CryptoModelImpl();
   var fearList = <FearVO>[].obs;
-  FearVO? today;
-  var isLoading = false.obs;
-  var todayFearIndexValue = 0.0.obs;
-  RxString timeUpdateRx = "H".obs;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -20,15 +16,12 @@ class FearIndexController extends GetxController {
 
   void fetchData() {
     try {
-      isLoading(true);
       cryptoModel.getFearIndexList(30).then((list) {
         fearList.assignAll(list);
-        today = list.first;
-        todayFearIndexValue.value = double.parse(today!.value);
-        getNextTime(today?.timeUntilUpdate ?? "");
       });
-    } finally {
-      isLoading(false);
+    } catch (error) {
+      // Handle the error, you can log it or show an error message
+      print('Error fetching data: $error');
     }
   }
 
@@ -44,9 +37,9 @@ class FearIndexController extends GetxController {
     }
   }
 
-  void getNextTime(String timeUntilUpdate) {
+  String getNextTime(String? timeUntilUpdate) {
     // Convert timeUntilUpdate to seconds and parse it as an integer
-    int timeInSeconds = int.tryParse(timeUntilUpdate) ?? 0;
+    int timeInSeconds = int.tryParse(timeUntilUpdate!) ?? 0;
 
     // Calculate hours and minutes
     int hours = (timeInSeconds ~/ 3600) % 24;
@@ -54,6 +47,10 @@ class FearIndexController extends GetxController {
 
     // Construct the formatted time string
     String formattedTime = '$hours hours , $minutes minutes';
-    timeUpdateRx.value = formattedTime;
+    return formattedTime;
+  }
+
+  double getTodayValue(String value) {
+    return double.parse(value);
   }
 }

@@ -25,7 +25,21 @@ class CryptoModelImpl extends CryptoModel {
 
   @override
   Future<List<FearVO>> getFearIndexList(int limit) {
-    // TODO: implement getFearIndexList
     return cDataAgent.getFearIndexList(limit);
+  }
+
+  @override
+  Future<List<CryptoVO>> getCryptoSearch(String search) {
+    return cDataAgent.getCryptoList(100).asStream().map((list) {
+      list.sort((a, b) =>
+          b.quotes.detailVO.marketCap.compareTo(a.quotes.detailVO.marketCap));
+      // Filter the list based on the search parameter
+      List<CryptoVO> filteredList = list
+          .where((crypto) =>
+              crypto.name.toLowerCase().contains(search.toLowerCase()) ||
+              crypto.symbol.toLowerCase().contains(search.toLowerCase()))
+          .toList();
+      return filteredList;
+    }).first;
   }
 }

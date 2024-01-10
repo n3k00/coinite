@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   CryptoModel cryptoModel = CryptoModelImpl();
   List<CryptoVO>? cryptoList;
+  var isSearch = false.obs;
+  RxString searchString = ''.obs;
 
   @override
   void onInit() {
@@ -38,5 +40,13 @@ class HomeController extends GetxController {
         style: TextStyle(color: Colors.green, fontSize: 16),
       );
     }
+  }
+
+  void toSearch(String search) {
+    searchString.value = search;
+  }
+
+  void changeSearch() {
+    isSearch.value = !isSearch.value;
   }
 }

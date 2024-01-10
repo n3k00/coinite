@@ -4,4 +4,5 @@ import 'package:coinite/data/vo/fear_vo.dart';
 abstract class CryptoModel {
   Future<List<CryptoVO>> getCryptoList(int limit);
   Future<List<FearVO>> getFearIndexList(int limit);
+  Future<List<CryptoVO>> getCryptoSearch(String search);
 }

@@ -15,48 +15,102 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TitleText(title: "Cryptocurrency"),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  FontAwesomeIcons.magnifyingGlass,
-                  size: TEXT_REGULAR_3X,
-                  color: Colors.grey,
-                ),
-              )
-            ],
-          ),
+        Obx(
+          () => controller.isSearch.value ? buildSearch() : buildHeading(),
         ),
         ListTitleSection(),
         Expanded(
-          child: FutureBuilder(
-              future: CryptoModelImpl().getCryptoList(100),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<CryptoVO>> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data?.length,
-                    itemBuilder: (context, index) {
-                      CryptoVO crypto = snapshot.data![index];
-                      DetailVO detail = crypto.quotes.detailVO;
-                      int number = index + 1;
-                      return cryptoSection(number, crypto, detail);
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                } else if (!snapshot.hasData) {
+          child: Obx(() {
+            var _ = controller.searchString.value;
+            return FutureBuilder(
+                future: controller.isSearch.value
+                    ? CryptoModelImpl()
+                        .getCryptoSearch(controller.searchString.value)
+                    : CryptoModelImpl().getCryptoList(100),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<CryptoVO>> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.isNotEmpty) {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          CryptoVO crypto = snapshot.data![index];
+                          DetailVO detail = crypto.quotes.detailVO;
+                          int number = index + 1;
+                          return cryptoSection(number, crypto, detail);
+                        },
+                      );
+                    } else {
+                      return Center(
+                        child: Text("There is no ${controller.searchString}"),
+                      );
+                    }
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
+                  } else if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
                   return Center(child: CircularProgressIndicator());
-                }
-                return Center(child: CircularProgressIndicator());
-              }),
+                });
+          }),
         ),
       ],
+    );
+  }
+
+  Widget buildHeading() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TitleText(title: "Cryptocurrency"),
+          IconButton(
+            onPressed: () {
+              controller.changeSearch();
+            },
+            icon: Icon(
+              FontAwesomeIcons.magnifyingGlass,
+              size: TEXT_REGULAR_3X,
+              color: Colors.grey,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildSearch() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: MARGIN_MEDIUM_2,
+        vertical: MARGIN_MEDIUM,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search...',
+              ),
+              onChanged: controller.toSearch,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              controller.changeSearch();
+            },
+            icon: Icon(
+              FontAwesomeIcons.xmark,
+              size: TEXT_REGULAR_3X,
+              color: Colors.grey,
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -103,9 +157,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      trailing: controller.get24HoursChange(
-        detail.percentChange24h,
-      ),
+      trailing: controller.get24HoursChange(detail.percentChange24h ?? 0.0),
     );
   }
 }
