@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coinite/data/models/crypto_model.dart';
 import 'package:coinite/data/models/crypto_model_impl.dart';
 import 'package:coinite/data/vo/fear_vo.dart';

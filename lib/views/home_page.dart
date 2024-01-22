@@ -3,6 +3,8 @@ import 'package:coinite/data/models/crypto_model_impl.dart';
 import 'package:coinite/data/vo/crypto_vo.dart';
 import 'package:coinite/data/vo/detail_vo.dart';
 import 'package:coinite/resources/dimens.dart';
+import 'package:coinite/views/detail_page.dart';
+import 'package:coinite/widgets/list_title_section.dart';
 import 'package:coinite/widgets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,7 +28,7 @@ class HomePage extends StatelessWidget {
                 future: controller.isSearch.value
                     ? CryptoModelImpl()
                         .getCryptoSearch(controller.searchString.value)
-                    : CryptoModelImpl().getCryptoList(100),
+                    : CryptoModelImpl().getCryptoList(1000),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<CryptoVO>> snapshot) {
                   if (snapshot.hasData) {
@@ -116,6 +118,9 @@ class HomePage extends StatelessWidget {
 
   ListTile cryptoSection(int number, CryptoVO crypto, DetailVO detail) {
     return ListTile(
+      onTap: () {
+        Get.to(() => DetailPage(), arguments: [crypto]);
+      },
       leading: Text(
         number.toString(),
         style: TextStyle(
@@ -158,54 +163,6 @@ class HomePage extends StatelessWidget {
         ],
       ),
       trailing: controller.get24HoursChange(detail.percentChange24h ?? 0.0),
-    );
-  }
-}
-
-class ListTitleSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Text(
-        "#",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.grey,
-          fontSize: 16,
-        ),
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Coins",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Text(
-              "Price(USD)  ",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ],
-      ),
-      trailing: Text(
-        "24h %",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.grey,
-          fontSize: 16,
-        ),
-      ),
     );
   }
 }

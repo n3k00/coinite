@@ -4,9 +4,11 @@ import 'package:coinite/network/crypto_api.dart';
 import 'package:coinite/network/data_agents/crypto_data_agent.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class RetrofitDataAgentImpl extends CryptoDataAgent {
   late CryptoAPI cApi;
+  var box = GetStorage("coinite");
 
   static final RetrofitDataAgentImpl _singleton =
       RetrofitDataAgentImpl._internal();

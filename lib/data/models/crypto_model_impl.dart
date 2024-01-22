@@ -19,6 +19,7 @@ class CryptoModelImpl extends CryptoModel {
     return cDataAgent.getCryptoList(limit).asStream().map((list) {
       list.sort((a, b) =>
           b.quotes.detailVO.marketCap.compareTo(a.quotes.detailVO.marketCap));
+      //list.sort((a, b) => a.rank.compareTo(b.rank));
       return list;
     }).first;
   }

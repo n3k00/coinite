@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "649221351331",
+    "project_id": "coinite",
+    "storage_bucket": "coinite.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649221351331:android:b465783a779b2f2d7d5c16",
+        "android_client_info": {
+          "package_name": "me.shinthant.coinite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649221351331-vd650sc3ro4rfcfhehse3g6qe08a3gt3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.shinthant.coinite",
+            "certificate_hash": "f71fde36b870e71e6926d48762b153d4dd1ea87d"
+          }
+        },
+        {
+          "client_id": "649221351331-d5bfhjg3e9eq1b61jurd5sk80occ6n5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKk0bZWLN_jl_0dP3fRsHC4ODQ8YkTVC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649221351331-d5bfhjg3e9eq1b61jurd5sk80occ6n5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
